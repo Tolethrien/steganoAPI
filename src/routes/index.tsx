@@ -5,9 +5,9 @@ import Encode from "~/components/encode";
 type Mode = "encode" | "decode";
 export default function Home() {
   const [mode, setMode] = createSignal<Mode>("encode");
-  const changeMode = (newMode: Mode) => {
-    if (newMode !== mode()) setMode(newMode);
-  };
+
+  const changeMode = (newMode: Mode) => newMode !== mode() && setMode(newMode);
+
   return (
     <main class="flex flex-col w-full h-dvh">
       <h1 class="text-4xl pl-8">Steganography</h1>
