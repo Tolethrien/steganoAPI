@@ -2,7 +2,6 @@ interface EncodeProps {
   file: File;
   message: string;
   channel?: keyof typeof RGB_CHANNEL_SKIP;
-  password?: string;
 }
 interface DecodeProps {
   file: File;

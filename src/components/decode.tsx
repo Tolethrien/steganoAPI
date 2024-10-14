@@ -1,11 +1,15 @@
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createResource, createSignal, Show } from "solid-js";
 import Button from "./button";
 import DropFile from "./dropImage";
 import { decodeMessageFromImage } from "~/backend/stegano";
+import { decipher } from "~/backend/cipher";
 
 export default function Decode() {
   const [rawFile, setRawFile] = createSignal<File | null>(null);
-  const [image, setImage] = createSignal<string | null>(null);
+  const [image, setImage] = createSignal("");
+  const [msg, setMsg] = createSignal("");
+  const [password, setPassword] = createSignal("");
+  const [hasPassword, sethasPassword] = createSignal(false);
 
   createEffect(async () => {
     if (!rawFile()) return;
@@ -13,9 +17,15 @@ export default function Decode() {
     setImage(url);
   });
   const decodeImage = async () => {
-    console.log(
-      await decodeMessageFromImage({ file: rawFile()!, channel: "blue" })
-    );
+    const text = await decodeMessageFromImage({
+      file: rawFile()!,
+      channel: "blue",
+    });
+    if (hasPassword()) {
+      const decodeText = await decipher(password()!, text);
+      if (decodeText === null) return;
+      setMsg(decodeText);
+    } else setMsg(text);
   };
   return (
     <section class="flex flex-col flex-grow">
@@ -25,9 +35,17 @@ export default function Decode() {
           <h3 class="text-center">INPUTS</h3>
           <p class="text-center">Image</p>
           <DropFile getter={rawFile} setter={setRawFile} />
-
           <p>Secure with password?</p>
-          <input type="checkbox"></input>
+          <input
+            type="checkbox"
+            onChange={() => sethasPassword((prev) => !prev)}
+          ></input>
+          <Show when={hasPassword()}>
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              class="text-black"
+            />
+          </Show>
           <div class="flex justify-center mt-auto mb-4">
             <Button click={decodeImage} text="Read Message" />
           </div>
@@ -36,7 +54,10 @@ export default function Decode() {
           <h3 class="text-center">OUTPUT</h3>
           <div class="flex-grow">
             <p>DISTORTED FILE</p>
-            {image() && <img src={image()!} alt="Distorted Image" />}
+            <p>{"msg is: " + msg()}</p>
+            <Show when={image()}>
+              <img src={image()!} alt="Distorted Image" />
+            </Show>
           </div>
         </div>
       </div>
