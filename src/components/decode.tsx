@@ -1,5 +1,4 @@
 import { createEffect, createResource, createSignal, Show } from "solid-js";
-import Button from "./button";
 import DropFile from "./dropImage";
 import { decodeMessageFromImage } from "~/backend/stegano";
 import { decipher } from "~/backend/cipher";
@@ -47,7 +46,7 @@ export default function Decode() {
             />
           </Show>
           <div class="flex justify-center mt-auto mb-4">
-            <Button click={decodeImage} text="Read Message" />
+            <button onClick={decodeImage}>ss</button>
           </div>
         </div>
         <div class="flex flex-col flex-1 outline m-4">
