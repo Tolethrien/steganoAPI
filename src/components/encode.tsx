@@ -77,7 +77,7 @@ export default function Encode() {
       {/* RIGHT TILE */}
       <Tile
         title="OUTPUT"
-        onButtonDownload={{ getter: distortedImage, filename: "s" }}
+        onButtonDownload={{ getter: distortedImage, filename: "ImageMsg" }}
       >
         <div class="w-full flex flex-col items-center">
           <p class="text-center text-sub-text text-lg py-2">Distorted Image</p>

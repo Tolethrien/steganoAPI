@@ -5,12 +5,14 @@ interface Props {
   title: string;
   onButtonAction?: { name: string; callback: () => void };
   onButtonDownload?: { filename: string; getter: Accessor<string> };
+  view?: "center" | "top";
 }
 export default function Tile({
   children,
   title,
   onButtonAction,
   onButtonDownload,
+  view = "center",
 }: Props) {
   const downloadImage = () => {
     if (!onButtonDownload?.getter()) {
@@ -25,9 +27,17 @@ export default function Tile({
     downloadImage.remove();
   };
   return (
-    <div class="flex flex-col items-center justify-evenly border-4  border-main-color shadow-tile-shadow bg-white bg-opacity-10 p-4 m-4 rounded-lg">
+    <div
+      class={`flex flex-col items-center border-4  border-main-color shadow-tile-shadow bg-white bg-opacity-10 p-4 m-4 rounded-lg ${
+        view === "center" && "justify-evenly"
+      }`}
+    >
       <h2 class="text-main-text text-xl text-center">{title}</h2>
-      <div class="flex flex-col items-center justify-evenly flex-grow w-full">
+      <div
+        class={`flex flex-col items-center flex-grow w-full ${
+          view === "center" && "justify-evenly"
+        }`}
+      >
         {children}
       </div>
       <Show when={typeof onButtonAction === "object"}>
