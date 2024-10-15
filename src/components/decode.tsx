@@ -1,4 +1,4 @@
-import { createEffect, createResource, createSignal, Show } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import DropFile from "./dropImage";
 import { decodeMessageFromImage } from "~/backend/stegano";
 import { decipher } from "~/backend/cipher";
@@ -22,6 +22,7 @@ export default function Decode() {
       }
       setMsg(decodeText);
     } else setMsg(text);
+    console.log(msg().length);
   };
   return (
     <section class="grid gap-4 grid-cols-2 flex-grow">

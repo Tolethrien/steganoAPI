@@ -1,7 +1,17 @@
-import { createSignal, Show } from "solid-js";
+import {
+  batch,
+  createEffect,
+  createResource,
+  createSignal,
+  Show,
+} from "solid-js";
 import DropFile from "./dropImage";
 import { Cipher, cipher } from "~/backend/cipher";
-import { encodeMessageInImage } from "~/backend/stegano";
+import {
+  encodeMessageInImage,
+  getImageByteLength,
+  getMessageByteLength,
+} from "~/backend/stegano";
 import Tile from "./tile";
 import imageIcon from "../assets/img_icon.svg";
 export default function Encode() {
@@ -10,6 +20,8 @@ export default function Encode() {
   const [message, setMessage] = createSignal("");
   const [hasPassword, sethasPassword] = createSignal(false);
   const [password, setPassword] = createSignal("");
+  const [msgBytesLength, setmsgBytesLength] = createSignal(0);
+  const [imgBytesLength, setimgBytesLength] = createSignal(0);
 
   const generateDistortedImage = async () => {
     if (!rawFile()) {
@@ -18,6 +30,11 @@ export default function Encode() {
     }
     if (message().length === 0) {
       alert("empty message");
+      return;
+    }
+
+    if (msgBytesLength() >= imgBytesLength()) {
+      alert(`message will not fit, try shorter message or bigger image.`);
       return;
     }
 
@@ -34,6 +51,19 @@ export default function Encode() {
     if (!img) return;
     setDistortedImage(img);
   };
+  createEffect(async () => {
+    if (rawFile()) {
+      const imgBytes = await getImageByteLength(rawFile()!);
+      setimgBytesLength(imgBytes);
+    }
+  });
+  const setMessageData = (target: HTMLTextAreaElement) => {
+    const msgBytes = getMessageByteLength(target.value);
+    batch(() => {
+      setMessage(target.value);
+      setmsgBytesLength(msgBytes);
+    });
+  };
   return (
     <section class="grid gap-4 grid-cols-2 flex-grow">
       {/* LEFT TILE */}
@@ -45,11 +75,16 @@ export default function Encode() {
         }}
       >
         <DropFile getter={rawFile} setter={setRawFile} />
-        <textarea
-          placeholder="type your msg here..."
-          class="resize-y shadow-input-shadow overflow-hidden max-h-44 w-full rounded-lg  bg-inputs-bg p-2 placeholder:text-white focus:outline-none text-white"
-          onInput={(e) => setMessage(e.currentTarget.value)}
-        />
+        <div class="relative w-full">
+          <textarea
+            placeholder="type your msg here..."
+            class="resize-y shadow-input-shadow overflow-hidden max-h-44 w-full rounded-lg  bg-inputs-bg p-2 placeholder:text-white focus:outline-none text-white"
+            onInput={(e) => setMessageData(e.target)}
+          />
+          <p class="absolute -bottom-4 right-2">
+            {msgBytesLength() + "/" + imgBytesLength()}
+          </p>
+        </div>
         <div>
           <p class="text-center text-sub-text py-4 text-lg">
             Secure with password?

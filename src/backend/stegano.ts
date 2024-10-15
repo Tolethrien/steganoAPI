@@ -46,6 +46,13 @@ export const encodeMessageInImage = async ({
   ctx.putImageData(imageData, 0, 0);
   return canvas.toDataURL("image/png");
 };
+export const getImageByteLength = async (file: File) => {
+  const image = await loadImage(file);
+  const totalBits = image.width * image.height; //1bit per pixel 'couse 1 channel;
+  return Math.floor(totalBits / 8);
+};
+export const getMessageByteLength = (msg: string) =>
+  new TextEncoder().encode(msg).length;
 
 export const decodeMessageFromImage = async ({
   file,
@@ -90,3 +97,16 @@ const createCanvasFromImage = async (image: File) => {
   const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   return { canvas, ctx, imageData };
 };
+function loadImage(file: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = reader.result as string;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}

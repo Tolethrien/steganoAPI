@@ -4,7 +4,7 @@ import Encode from "~/components/encode";
 import Header from "~/components/header";
 export type Mode = "encode" | "decode";
 export default function Home() {
-  const [mode, setMode] = createSignal<Mode>("decode");
+  const [mode, setMode] = createSignal<Mode>("encode");
 
   return (
     <main class="flex flex-col w-full h-full">
