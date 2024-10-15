@@ -25,7 +25,7 @@ export default function Decode() {
     console.log(msg().length);
   };
   return (
-    <section class="grid gap-4 grid-cols-2 flex-grow">
+    <section class="grid lg:grid-cols-2 gap-4 grid-cols-1 flex-grow justify-items-center items-center">
       {/* LEFT TILE */}
       <Tile
         title="INPUTS"
@@ -35,11 +35,11 @@ export default function Decode() {
         }}
       >
         <DropFile getter={rawFile} setter={setRawFile} />
-        <div class="w-full">
+        <div class="w-full my-4">
           <p class="text-center text-sub-text py-4 text-lg">
             Secured with password?
           </p>
-          <div class="flex gap-4 justify-center">
+          <div class="flex gap-4 justify-center my-4">
             <textarea
               placeholder="paste your password here"
               class="resize-y shadow-input-shadow overflow-hidden max-h-44 w-full rounded-lg  bg-inputs-bg p-2 placeholder:text-white focus:outline-none text-white"

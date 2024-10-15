@@ -65,7 +65,7 @@ export default function Encode() {
     });
   };
   return (
-    <section class="grid gap-4 grid-cols-2 flex-grow">
+    <section class="grid lg:grid-cols-2 gap-4 grid-cols-1 flex-grow justify-items-center items-center">
       {/* LEFT TILE */}
       <Tile
         title="INPUTS"
@@ -75,10 +75,10 @@ export default function Encode() {
         }}
       >
         <DropFile getter={rawFile} setter={setRawFile} />
-        <div class="relative w-full">
+        <div class="relative w-full my-4">
           <textarea
             placeholder="type your msg here..."
-            class="resize-y shadow-input-shadow overflow-hidden max-h-44 w-full rounded-lg  bg-inputs-bg p-2 placeholder:text-white focus:outline-none text-white"
+            class="resize-y shadow-input-shadow overflow-hidden h-28 max-h-44 w-full rounded-lg  bg-inputs-bg p-2 placeholder:text-white focus:outline-none text-white"
             onInput={(e) => setMessageData(e.target)}
           />
           <p class="absolute -bottom-4 right-2">
@@ -89,7 +89,7 @@ export default function Encode() {
           <p class="text-center text-sub-text py-4 text-lg">
             Secure with password?
           </p>
-          <div class="flex gap-4">
+          <div class="flex gap-4 my-4 justify-center">
             <button
               onClick={() => sethasPassword(true)}
               class={`border-main-color rounded-md w-16 h-8 border-2 bg-white bg-opacity-10 hover:bg-opacity-20 transition-all ${
@@ -119,7 +119,9 @@ export default function Encode() {
           <div class="w-3/4 h-52 flex items-center justify-center bg-inputs-bg">
             <Show
               when={distortedImage()}
-              fallback={<img src={imageIcon} alt="Image icon" class="w-1/2" />}
+              fallback={
+                <img src={imageIcon} alt="Image icon" class="w-1/2 h-full" />
+              }
             >
               <img
                 src={distortedImage()!}
@@ -130,7 +132,7 @@ export default function Encode() {
           </div>
         </div>
         <div class="w-full">
-          <div class="text-center *:text-sub-text">
+          <div class="text-center *:text-sub-text m-4">
             <p class="text-xl">Password</p>
             <p class="-mt-2">(dont forget to copy!)</p>
           </div>
@@ -138,7 +140,7 @@ export default function Encode() {
             readOnly
             placeholder="no password"
             value={password()}
-            class="resize-none placeholder:text-center shadow-input-shadow overflow-hidden w-full rounded-lg  bg-inputs-bg p-2 placeholder:text-white focus:outline-none text-white"
+            class="lg:resize-none lg:h-auto h-28 placeholder:text-center shadow-input-shadow overflow-hidden w-full rounded-lg  bg-inputs-bg p-2 placeholder:text-white focus:outline-none text-white"
           />
         </div>
       </Tile>

@@ -28,7 +28,7 @@ export default function Tile({
   };
   return (
     <div
-      class={`flex flex-col items-center border-4  border-main-color shadow-tile-shadow bg-white bg-opacity-10 p-4 m-4 rounded-lg ${
+      class={`flex flex-col h-full items-center border-4 lg:max-w-[500px] lg:w-full w-11/12  border-main-color shadow-tile-shadow bg-white bg-opacity-10 p-4 m-4 rounded-lg ${
         view === "center" && "justify-evenly"
       }`}
     >

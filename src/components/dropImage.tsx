@@ -56,7 +56,9 @@ export default function DropFile({ getter: file, setter: setFile }: Props) {
             when={file() !== null}
             fallback={<p class="text-sub-text">Drop or Click</p>}
           >
-            <p class="text-sub-text">{file()!.name}</p>
+            <p class="text-sub-text overflow-hidden text-nowrap text-ellipsis">
+              {file()!.name}
+            </p>
           </Show>
         </label>
         <div class="absolute w-12 flex items-center justify-center h-8 border-2 border-main-color rounded-md border-dashed top-2 right-2 rotate-6">
