@@ -7,12 +7,9 @@ export default function Home() {
   const [mode, setMode] = createSignal<Mode>("encode");
 
   return (
-    <>
-      <Title>Home Page</Title>
-      <main class="flex flex-col w-full h-full">
-        <Header mode={mode} setMode={setMode} />
-        {mode() === "encode" ? <Encode /> : <Decode />}
-      </main>
-    </>
+    <main class="flex flex-col w-full h-full">
+      <Header mode={mode} setMode={setMode} />
+      {mode() === "encode" ? <Encode /> : <Decode />}
+    </main>
   );
 }
